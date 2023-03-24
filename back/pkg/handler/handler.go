@@ -11,13 +11,13 @@ type Handler struct {
 
 func (h Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
-	// api := router.Group("/api")
-	// {
-	// 	auth := api.Group("/auth")
-	// 	{
-	// 		auth.POST("/reg")
-	// 		auth.POST("/log")
-	// 	}
-	// }
+	api := router.Group("/api")
+	{
+		auth := api.Group("/auth")
+		{
+			auth.POST("/reg", h.authReg)
+			auth.POST("/log", h.authLog)
+		}
+	}
 	return router
 }
