@@ -1,4 +1,4 @@
-package grod
+package main
 
 func main() {
 
