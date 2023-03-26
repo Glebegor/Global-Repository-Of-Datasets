@@ -15,18 +15,19 @@ type LogRedInput struct {
 
 func (h *Handler) authReg(c *gin.Context) {
 	var input grod.User
+	input.Subscribe = "free"
 
 	if err := c.BindJSON(&input); err != nil {
 		newResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	UserId, err := h.service.Authorization.CreateUser(input)
+	_, err := h.service.Authorization.CreateUser(input)
 	if err != nil {
 		return
 	}
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "200",
-		"UserId": UserId,
+		"UserId": input,
 	})
 }
 func (h *Handler) authLog(c *gin.Context) {
