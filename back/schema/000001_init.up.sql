@@ -3,6 +3,6 @@ CREATE TABLE users (
     password_hash varchar(255) not null,
     email varchar(255) not null,
     tel varchar(255),
-    subscribe varchar(255) DEFAULT "free",
+    subscribe varchar(255) not null,
     id serial not null unique
 );

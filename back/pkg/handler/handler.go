@@ -9,6 +9,10 @@ type Handler struct {
 	service *service.Service
 }
 
+func NewHandler(services *service.Service) *Handler {
+	return &Handler{service: services}
+}
+
 func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
