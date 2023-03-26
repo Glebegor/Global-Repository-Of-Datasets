@@ -38,11 +38,15 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		database := api.Group("/database")
 		{
+
 			database.GET("/", h.dataSetsAllGet)
 			database.POST("/", h.dataSetCreate)
+
 			database.GET("/:id", h.dataSetGet)
+			database.GET("/:id/random", h.dataSetGetRandomRow)
 			database.PUT("/:id", h.dataSetChange)
 			database.DELETE("/:id", h.dataSetDelete)
+
 		}
 
 		subscribes := api.Group("/subscribes")

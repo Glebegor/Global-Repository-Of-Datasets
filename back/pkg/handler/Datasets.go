@@ -31,3 +31,8 @@ func (h *Handler) dataSetChange(c *gin.Context) {
 		"status": "200",
 	})
 }
+func (h *Handler) dataSetGetRandomRow(c *gin.Context) {
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"status": "200",
+	})
+}
