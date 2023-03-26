@@ -1,10 +1,20 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	grod "github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back"
+	"github.com/jmoiron/sqlx"
+)
+
+type Authorization interface {
+	CreateUser(user grod.User) (int, error)
+}
 
 type Repository struct {
+	Authorization
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		Authorization: NewAuthPostgres(db),
+	}
 }
