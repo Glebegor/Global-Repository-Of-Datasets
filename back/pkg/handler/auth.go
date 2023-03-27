@@ -10,7 +10,6 @@ import (
 type LogRedInput struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
-	Email    string `json:"email" binding:"required"`
 }
 
 func (h *Handler) authReg(c *gin.Context) {
@@ -23,6 +22,7 @@ func (h *Handler) authReg(c *gin.Context) {
 	}
 	status, err := h.service.Authorization.CreateUser(input)
 	if err != nil {
+		newResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 	c.JSON(http.StatusOK, map[string]interface{}{
@@ -30,7 +30,18 @@ func (h *Handler) authReg(c *gin.Context) {
 	})
 }
 func (h *Handler) authLog(c *gin.Context) {
+	var input LogRedInput
+
+	if err := c.BindJSON(&input); err != nil {
+		newResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	token, err := h.service.Authorization.GenerateToken(input.Username, input.Password)
+	if err != nil {
+		newResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"status": "200",
+		"token": token,
 	})
 }
