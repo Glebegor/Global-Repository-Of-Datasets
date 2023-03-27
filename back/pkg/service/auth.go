@@ -13,5 +13,6 @@ func NewAuthService(repo repository.Authorization) *AuthService {
 	return &AuthService{repo: repo}
 }
 func (r *AuthService) CreateUser(user grod.User) (int, error) {
-	return 0, nil
+	status, err := r.repo.CreateUser(user)
+	return status, err
 }

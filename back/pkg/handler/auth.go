@@ -21,13 +21,12 @@ func (h *Handler) authReg(c *gin.Context) {
 		newResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	_, err := h.service.Authorization.CreateUser(input)
+	status, err := h.service.Authorization.CreateUser(input)
 	if err != nil {
 		return
 	}
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"status": "200",
-		"UserId": input,
+		"status": status,
 	})
 }
 func (h *Handler) authLog(c *gin.Context) {
