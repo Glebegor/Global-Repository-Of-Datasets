@@ -6,7 +6,11 @@ import (
 )
 
 const (
-	UserTable = "users"
+	UserTable          = "users"
+	UsersDatasetsTable = "users_datasets"
+	DatasetsItemsTable = "datasets_items"
+	DatasetItemTable   = "dataset_item"
+	DatasetsTable      = "datasets"
 )
 
 type Authorization interface {
