@@ -9,5 +9,10 @@ CREATE TABLE users (
 CREATE TABLE datasets (
     title varchar(255) not null,
     description varchar(255) not null,
-    id serial not null unique,
+    id serial not null unique
 );
+CREATE TABLE users_datasets (
+    id serial not null unique,
+    id_user int references(users(id))on delete cascade  not null,
+    id_dataset int references(datasets(id))on delete cascade  not null
+)
