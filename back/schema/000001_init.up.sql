@@ -13,16 +13,16 @@ CREATE TABLE datasets (
 );
 CREATE TABLE users_datasets (
     id serial not null unique,
-    id_user int references(users(id))on delete cascade  not null,
-    id_dataset int references(datasets(id))on delete cascade  not null
-)
+    id_user int references users(id) on delete cascade  not null,
+    id_dataset int references datasets(id) on delete cascade  not null
+);
 CREATE TABLE datasetItem (
-    id serial not null unique
-    data varchar,
-    solution varchar,
+    id serial not null unique,
+    datainfo varchar(255),
+    solution varchar(255)
 );
 CREATE TABLE datasets_items (
     id serial not null unique,
-    id_dataset int references(datasets(id))on delete cascade  not null,
-    id_item int references(datasetItem(id))on delete cascade  not null
-)
+    id_dataset int references datasets(id) on delete cascade  not null,
+    id_item int references datasetItem(id) on delete cascade  not null
+);
