@@ -10,12 +10,20 @@ type Authorization interface {
 	GenerateToken(username, password string) (string, error)
 }
 
+type Subscribe interface {
+	BuyCommon(user_id int) (int, error)
+	UnSubCommon(user_id int) (int, error)
+	BuyPremium(user_id int) (int, error)
+	UnSubPremium(user_id int) (int, error)
+}
 type Service struct {
 	Authorization
+	Subscribe
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Subscribe:     NewSubscribeService(repos.Subscribe),
 	}
 }

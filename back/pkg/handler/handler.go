@@ -59,12 +59,12 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			{
 				common.POST("/buy", h.buyCommon)
 				common.POST("/buy-free", h.buyFreeCommon)
-				common.POST("/canceling", h.cancelCommon)
+				common.POST("/canceling", h.unSubCommon)
 			}
 			premium := subscribes.Group("/premium")
 			{
 				premium.POST("/buy", h.buyPremium)
-				premium.POST("/canceling", h.cancelPremium)
+				premium.POST("/canceling", h.unSubPremium)
 			}
 		}
 	}
