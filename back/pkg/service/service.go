@@ -8,6 +8,7 @@ import (
 type Authorization interface {
 	CreateUser(user grod.User) (int, error)
 	GenerateToken(username, password string) (string, error)
+	ParseToken(accesToken string) (int, string, error)
 }
 
 type Subscribe interface {

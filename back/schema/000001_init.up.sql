@@ -8,7 +8,7 @@ CREATE TABLE users (
 );
 CREATE TABLE datasets (
     title varchar(255) not null,
-    description varchar(255) not null,
+    description varchar(2000) not null,
     id serial not null unique
 );
 CREATE TABLE users_datasets (
@@ -18,8 +18,8 @@ CREATE TABLE users_datasets (
 );
 CREATE TABLE datasetItem (
     id serial not null unique,
-    datainfo varchar(255),
-    solution varchar(255)
+    datainfo varchar(2000),
+    solution varchar(2000)
 );
 CREATE TABLE datasets_items (
     id serial not null unique,
