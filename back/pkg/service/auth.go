@@ -59,7 +59,7 @@ func (r *AuthService) ParseToken(accesToken string) (int, string, error) {
 		return []byte(os.Getenv("secretKey")), nil
 	})
 	if err != nil {
-		return 0, " ", nil
+		return 0, "", err
 	}
 	claims, ok := token.Claims.(*tokenClaims)
 	if !ok {
