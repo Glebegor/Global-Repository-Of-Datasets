@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 
 	grod "github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back"
 	"github.com/jmoiron/sqlx"
@@ -52,5 +53,26 @@ func (r *DatasetsPostgres) GetById(userId, datasetId int) (grod.Dataset, error) 
 func (r *DatasetsPostgres) Delete(userId, datasetId int) error {
 	query := fmt.Sprintf("DELETE FROM %s tl  USING %s ul WHERE tl.id=ul.id_dataset AND ul.id_user=$1 AND ul.id_dataset=$2", DatasetsTable, UsersDatasetsTable)
 	_, err := r.db.Exec(query, userId, datasetId)
+	return err
+}
+func (r *DatasetsPostgres) Update(userId, datasetId int, input grod.UpdateDataset) error {
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
+	if input.Title != nil {
+		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
+		args = append(args, *input.Title)
+		argId++
+	}
+	if input.Description != nil {
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		args = append(args, *input.Description)
+		argId++
+	}
+	setQuery := strings.Join(setValues, ", ")
+	query := fmt.Sprintf("UPDATE %s tl SET %s FROM %s ul WHERE tl.id = ul.id_dataset AND ul.id_dataset=$%d AND ul.id_user=$%d", DatasetsTable, setQuery, UsersDatasetsTable, argId, argId+1)
+	args = append(args, datasetId, userId)
+
+	_, err := r.db.Exec(query, args...)
 	return err
 }

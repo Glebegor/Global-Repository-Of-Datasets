@@ -29,3 +29,7 @@ func (r *DatasetsService) Delete(userId, datasetId int) error {
 	err := r.repo.Delete(userId, datasetId)
 	return err
 }
+func (r *DatasetsService) Update(userId int, datasetId int, input grod.UpdateDataset) error {
+	err := r.repo.Update(userId, datasetId, input)
+	return err
+}

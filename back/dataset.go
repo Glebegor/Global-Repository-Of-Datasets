@@ -5,3 +5,7 @@ type Dataset struct {
 	Description string `json:"description" binding:"required"`
 	Id          int    `json:"-" db:"id"`
 }
+type UpdateDataset struct {
+	Title       *string `json:"title"`
+	Description *string `json:"description"`
+}

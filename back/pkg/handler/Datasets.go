@@ -85,6 +85,25 @@ func (h *Handler) dataSetDelete(c *gin.Context) {
 	})
 }
 func (h *Handler) dataSetChange(c *gin.Context) {
+	userId, err := GetUserById(c)
+	if err != nil {
+		newResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+	datasetId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+	var input grod.UpdateDataset
+	if err := c.BindJSON(&input); err != nil {
+		newResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	if err := h.service.Datasets.Update(userId, datasetId, input); err != nil {
+		newResponse(c, http.StatusBadGateway, err.Error())
+		return
+	}
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "200",
 	})
