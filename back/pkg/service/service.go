@@ -21,6 +21,7 @@ type Datasets interface {
 	Create(userId int, input grod.Dataset) error
 	GetAll(userId int) ([]grod.Dataset, error)
 	GetById(userId, datasetId int) (grod.Dataset, error)
+	Delete(userId, datasetId int) error
 }
 type Service struct {
 	Authorization

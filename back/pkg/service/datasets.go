@@ -25,3 +25,7 @@ func (r *DatasetsService) GetById(userId, datasetId int) (grod.Dataset, error) {
 	data, err := r.repo.GetById(userId, datasetId)
 	return data, err
 }
+func (r *DatasetsService) Delete(userId, datasetId int) error {
+	err := r.repo.Delete(userId, datasetId)
+	return err
+}

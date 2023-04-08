@@ -49,3 +49,8 @@ func (r *DatasetsPostgres) GetById(userId, datasetId int) (grod.Dataset, error) 
 	err := r.db.Get(&datasets, query, userId, datasetId)
 	return datasets, err
 }
+func (r *DatasetsPostgres) Delete(userId, datasetId int) error {
+	query := fmt.Sprintf("DELETE FROM %s tl  USING %s ul WHERE tl.id=ul.id_dataset AND ul.id_user=$1 AND ul.id_dataset=$2", DatasetsTable, UsersDatasetsTable)
+	_, err := r.db.Exec(query, userId, datasetId)
+	return err
+}

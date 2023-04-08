@@ -27,6 +27,7 @@ type Datasets interface {
 	Create(userId int, dataset grod.Dataset) error
 	GetAll(userId int) ([]grod.Dataset, error)
 	GetById(userId, datasetId int) (grod.Dataset, error)
+	Delete(userId, datasetId int) error
 }
 type Repository struct {
 	Authorization
