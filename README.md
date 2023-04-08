@@ -1,9 +1,10 @@
 <h1>GLOBAL REPOSITORY OF DATASETS</h1>
-<p>GROD. Startup that upping from one idea of my brains</p>
+<p>GROD. Startup that upping from one idea of my brains.</p>
 
 <h3>ABOUT PROJECT</h3>
 <p>GROD(Global Repository Of Datasets) is platform to creating, saving and using datasets for your ideas.</p>
-<p></p>
+<p>We Using gin framework to do working on project more smart and faster.</p>
+<p>Also using sqlx, and another interesting technologies.</p>
 
 <h3>API</h3>
 <p>API and another futures(using our tools, getting secret codes and another) will be work depanding of your permissions. 
