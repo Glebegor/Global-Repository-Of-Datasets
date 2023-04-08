@@ -19,6 +19,7 @@ type Subscribe interface {
 }
 type Datasets interface {
 	Create(userId int, input grod.Dataset) error
+	GetAll(userId int) ([]grod.Dataset, error)
 }
 type Service struct {
 	Authorization

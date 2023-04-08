@@ -35,3 +35,11 @@ func (r *DatasetsPostgres) Create(userId int, dataset grod.Dataset) error {
 	}
 	return tx.Commit()
 }
+
+func (r *DatasetsPostgres) GetAll(userId int) ([]grod.Dataset, error) {
+	var datasets []grod.Dataset
+
+	query := fmt.Sprintf("SELECT tl.id, tl.description, tl.title FROM %s tl INNER JOIN %s ul on tl.id = ul.id_dataset WHERE id_user=$1", DatasetsTable, UsersDatasetsTable)
+	err := r.db.Select(&datasets, query, userId)
+	return datasets, err
+}

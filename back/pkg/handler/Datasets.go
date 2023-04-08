@@ -13,8 +13,18 @@ func (h *Handler) dataSetGet(c *gin.Context) {
 	})
 }
 func (h *Handler) dataSetsAllGet(c *gin.Context) {
+	userId, err := GetUserById(c)
+	if err != nil {
+		newResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+	data, err := h.service.Datasets.GetAll(userId)
+	if err != nil {
+		newResponse(c, http.StatusBadGateway, err.Error())
+		return
+	}
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"status": "200",
+		"data": data,
 	})
 }
 func (h *Handler) dataSetCreate(c *gin.Context) {
