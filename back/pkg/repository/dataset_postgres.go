@@ -43,3 +43,9 @@ func (r *DatasetsPostgres) GetAll(userId int) ([]grod.Dataset, error) {
 	err := r.db.Select(&datasets, query, userId)
 	return datasets, err
 }
+func (r *DatasetsPostgres) GetById(userId, datasetId int) (grod.Dataset, error) {
+	var datasets grod.Dataset
+	query := fmt.Sprintf("SELECT tl.id, tl.description, tl.title FROM %s tl  INNER JOIN %s ul on tl.id=ul.id_dataset AND ul.id_user=$1 AND ul.id_dataset=$2", DatasetsTable, UsersDatasetsTable)
+	err := r.db.Get(&datasets, query, userId, datasetId)
+	return datasets, err
+}

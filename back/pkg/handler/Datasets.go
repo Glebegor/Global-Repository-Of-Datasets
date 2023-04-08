@@ -2,14 +2,30 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	grod "github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back"
 	"github.com/gin-gonic/gin"
 )
 
 func (h *Handler) dataSetGet(c *gin.Context) {
+	userId, err := GetUserById(c)
+	if err != nil {
+		newResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+	datasetId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+	data, err := h.service.Datasets.GetById(userId, datasetId)
+	if err != nil {
+		newResponse(c, http.StatusBadGateway, err.Error())
+		return
+	}
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"status": "200",
+		"data": data,
 	})
 }
 func (h *Handler) dataSetsAllGet(c *gin.Context) {
