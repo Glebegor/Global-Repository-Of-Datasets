@@ -40,9 +40,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api", h.userIndentity)
 	{
-		database := api.Group("/database")
+		database := api.Group("/datasets")
 		{
-
 			database.GET("/", h.dataSetsAllGet)
 			database.POST("/", h.dataSetCreate)
 
@@ -50,7 +49,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			database.GET("/:id/random", h.dataSetGetRandomRow)
 			database.PUT("/:id", h.dataSetChange)
 			database.DELETE("/:id", h.dataSetDelete)
-
 		}
 
 		subscribes := api.Group("/subscribes")

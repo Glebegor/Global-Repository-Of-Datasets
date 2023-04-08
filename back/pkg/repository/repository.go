@@ -23,14 +23,19 @@ type Subscribe interface {
 	BuyPremium(user_id int) (int, error)
 	UnSubPremium(user_id int) (int, error)
 }
+type Datasets interface {
+	Create(userId int, dataset grod.Dataset) error
+}
 type Repository struct {
 	Authorization
 	Subscribe
+	Datasets
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		Subscribe:     NewSubscribePostgres(db),
+		Datasets:      NewDatasetsPostgres(db),
 	}
 }

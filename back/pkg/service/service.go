@@ -17,14 +17,19 @@ type Subscribe interface {
 	BuyPremium(user_id int) (int, error)
 	UnSubPremium(user_id int) (int, error)
 }
+type Datasets interface {
+	Create(userId int, input grod.Dataset) error
+}
 type Service struct {
 	Authorization
 	Subscribe
+	Datasets
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		Subscribe:     NewSubscribeService(repos.Subscribe),
+		Datasets:      NewDatasetsService(repos.Datasets),
 	}
 }
