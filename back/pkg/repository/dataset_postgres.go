@@ -2,7 +2,9 @@ package repository
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
+	"time"
 
 	grod "github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back"
 	"github.com/jmoiron/sqlx"
@@ -46,9 +48,17 @@ func (r *DatasetsPostgres) GetAll(userId int) ([]grod.Dataset, error) {
 }
 func (r *DatasetsPostgres) GetById(userId, datasetId int) (grod.Dataset, error) {
 	var datasets grod.Dataset
-	query := fmt.Sprintf("SELECT tl.id, tl.description, tl.title FROM %s tl  INNER JOIN %s ul on tl.id=ul.id_dataset AND ul.id_user=$1 AND ul.id_dataset=$2", DatasetsTable, UsersDatasetsTable)
+	query := fmt.Sprintf("SELECT tl.id, tl.description, tl.title FROM %s tl INNER JOIN %s ul on tl.id=ul.id_dataset AND ul.id_user=$1 AND ul.id_dataset=$2", DatasetsTable, UsersDatasetsTable)
 	err := r.db.Get(&datasets, query, userId, datasetId)
 	return datasets, err
+}
+func (r *DatasetsPostgres) GetRandom(userId, datasetId int) (grod.DatasetItem, error) {
+	var data []grod.DatasetItem
+	query := fmt.Sprintf("SELECT tl.id, tl.datainfo, tl.solution FROM %s tl INNER JOIN %s ul on ul.id_user=$1", DatasetsTable, UsersDatasetsTable)
+	err := r.db.Select(&data, query, userId)
+	rand.Seed(time.Now().Unix())
+
+	return data[rand.Intn(len(data))], err
 }
 func (r *DatasetsPostgres) Delete(userId, datasetId int) error {
 	query := fmt.Sprintf("DELETE FROM %s tl  USING %s ul WHERE tl.id=ul.id_dataset AND ul.id_user=$1 AND ul.id_dataset=$2", DatasetsTable, UsersDatasetsTable)

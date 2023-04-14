@@ -27,13 +27,17 @@ type Datasets interface {
 	Create(userId int, dataset grod.Dataset) error
 	GetAll(userId int) ([]grod.Dataset, error)
 	GetById(userId, datasetId int) (grod.Dataset, error)
+	GetRandom(userId, datasetId int) (grod.DatasetItem, error)
 	Delete(userId, datasetId int) error
 	Update(userId, datasetId int, input grod.UpdateDataset) error
+}
+type DatasetItems interface {
 }
 type Repository struct {
 	Authorization
 	Subscribe
 	Datasets
+	DatasetItems
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -41,5 +45,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db),
 		Subscribe:     NewSubscribePostgres(db),
 		Datasets:      NewDatasetsPostgres(db),
+		DatasetItems:  NewDatasetItemsPostgres(db),
 	}
 }

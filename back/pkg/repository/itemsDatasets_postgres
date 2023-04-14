@@ -1,0 +1,15 @@
+package repository
+
+import (
+	"fmt"
+
+	"github.com/jmoiron/sqlx"
+)
+
+type DatasetItemsPostgres struct (
+	db *sqlx.DB
+)
+
+func NewDatasetItemsPostgres(db *sqlx.DB) *DatasetItemsPostgres {
+	return &DatasetItemsPostgres{db:db}
+}	

@@ -8,7 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) dataSetGet(c *gin.Context) {
+func (h *Handler) ItemsGetAll(c *gin.Context) {
+	userId, err := GetUserById(c)
+	if err != nil {
+		newResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+	data, err := h.service.DatasetItems.GetAll(userId)
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"data": data,
+	})
+}
+func (h *Handler) ItemsGet(c *gin.Context) {
 	userId, err := GetUserById(c)
 	if err != nil {
 		newResponse(c, http.StatusUnauthorized, err.Error())
@@ -28,22 +39,7 @@ func (h *Handler) dataSetGet(c *gin.Context) {
 		"data": data,
 	})
 }
-func (h *Handler) dataSetsAllGet(c *gin.Context) {
-	userId, err := GetUserById(c)
-	if err != nil {
-		newResponse(c, http.StatusUnauthorized, err.Error())
-		return
-	}
-	data, err := h.service.Datasets.GetAll(userId)
-	if err != nil {
-		newResponse(c, http.StatusBadGateway, err.Error())
-		return
-	}
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"data": data,
-	})
-}
-func (h *Handler) dataSetCreate(c *gin.Context) {
+func (h *Handler) ItemCreate(c *gin.Context) {
 	userId, err := GetUserById(c)
 	if err != nil {
 		newResponse(c, http.StatusUnauthorized, err.Error())
@@ -65,7 +61,7 @@ func (h *Handler) dataSetCreate(c *gin.Context) {
 		"title":  input.Title,
 	})
 }
-func (h *Handler) dataSetDelete(c *gin.Context) {
+func (h *Handler) ItemChange(c *gin.Context) {
 	userId, err := GetUserById(c)
 	if err != nil {
 		newResponse(c, http.StatusUnauthorized, err.Error())
@@ -84,7 +80,7 @@ func (h *Handler) dataSetDelete(c *gin.Context) {
 		"status": "200",
 	})
 }
-func (h *Handler) dataSetChange(c *gin.Context) {
+func (h *Handler) ItemDelete(c *gin.Context) {
 	userId, err := GetUserById(c)
 	if err != nil {
 		newResponse(c, http.StatusUnauthorized, err.Error())
@@ -106,25 +102,5 @@ func (h *Handler) dataSetChange(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "200",
-	})
-}
-func (h *Handler) dataSetGetRandomRow(c *gin.Context) {
-	userId, err := GetUserById(c)
-	if err != nil {
-		newResponse(c, http.StatusUnauthorized, err.Error())
-		return
-	}
-	datasetId, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		newResponse(c, http.StatusBadRequest, "Invalid id param")
-		return
-	}
-	data, err := h.service.Datasets.GetRandom(userId, datasetId)
-	if err != nil {
-		newResponse(c, http.StatusBadGateway, err.Error())
-		return
-	}
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"data": data,
 	})
 }
