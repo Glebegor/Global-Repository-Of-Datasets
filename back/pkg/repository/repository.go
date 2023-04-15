@@ -9,7 +9,7 @@ const (
 	UserTable          = "users"
 	UsersDatasetsTable = "users_datasets"
 	DatasetsItemsTable = "datasets_items"
-	DatasetItemTable   = "dataset_item"
+	DatasetItemTable   = "datasetItem"
 	DatasetsTable      = "datasets"
 )
 
@@ -32,6 +32,8 @@ type Datasets interface {
 	Update(userId, datasetId int, input grod.UpdateDataset) error
 }
 type DatasetItems interface {
+	Create(userId int, datasetId int, data grod.DatasetItem) error
+	GetAll(usersId int, datasetId int) ([]grod.DatasetItem, error)
 }
 type Repository struct {
 	Authorization

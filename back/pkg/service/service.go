@@ -11,7 +11,8 @@ type Authorization interface {
 	ParseToken(accesToken string) (int, string, error)
 }
 type DatasetItems interface {
-	GetAll(userId int) (int, error)
+	Create(userId int, datasetId int, data grod.DatasetItem) error
+	GetAll(userId int, datasetId int) ([]grod.DatasetItem, error)
 }
 type Subscribe interface {
 	BuyCommon(user_id int) (int, error)

@@ -1,6 +1,9 @@
 package service
 
-import "github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back/pkg/repository"
+import (
+	grod "github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back"
+	"github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back/pkg/repository"
+)
 
 type DatasetItemsService struct {
 	repo repository.DatasetItems
@@ -9,6 +12,11 @@ type DatasetItemsService struct {
 func NewDatasetItemsService(repo repository.DatasetItems) *DatasetItemsService {
 	return &DatasetItemsService{repo: repo}
 }
-func (r *DatasetItemsService) GetAll(userId int) (int, error) {
-	return 0, nil
+func (r *DatasetItemsService) Create(userId int, datasetId int, data grod.DatasetItem) error {
+	err := r.repo.Create(userId, datasetId, data)
+	return err
+}
+func (r *DatasetItemsService) GetAll(userId int, datasetId int) ([]grod.DatasetItem, error) {
+	data, err := r.repo.GetAll(userId, datasetId)
+	return data, err
 }
