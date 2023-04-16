@@ -27,7 +27,7 @@ type Datasets interface {
 	Create(userId int, dataset grod.Dataset) error
 	GetAll(userId int) ([]grod.Dataset, error)
 	GetById(userId, datasetId int) (grod.Dataset, error)
-	GetRandom(userId, datasetId int) (grod.DatasetItem, error)
+	GetRandom(userId, datasetId int) ([]grod.DatasetItem, error)
 	Delete(userId, datasetId int) error
 	Update(userId, datasetId int, input grod.UpdateDataset) error
 }

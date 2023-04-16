@@ -1,6 +1,9 @@
 package service
 
 import (
+	"math/rand"
+	"time"
+
 	grod "github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back"
 	"github.com/Glebegor/Global-Repository-Of-Datasets/tree/master/back/pkg/repository"
 )
@@ -26,7 +29,10 @@ func (r *DatasetsService) GetById(userId, datasetId int) (grod.Dataset, error) {
 }
 func (r *DatasetsService) GetRandom(userId, datasetId int) (grod.DatasetItem, error) {
 	data, err := r.repo.GetRandom(userId, datasetId)
-	return data, err
+	rand.Seed(time.Now().UnixNano())
+	randomId := rand.Intn(len(data))
+	data1 := data[randomId]
+	return data1, err
 }
 func (r *DatasetsService) Delete(userId, datasetId int) error {
 	err := r.repo.Delete(userId, datasetId)
