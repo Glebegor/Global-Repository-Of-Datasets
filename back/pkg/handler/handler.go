@@ -55,8 +55,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				items := databaseId.Group("/items")
 				{
 					items.GET("/", h.ItemsGetAll)
-					items.GET("/:item_id", h.ItemsGet)
 					items.POST("/", h.ItemCreate)
+
+					items.GET("/:item_id", h.ItemsGet)
 					items.PUT("/:item_id", h.ItemChange)
 					items.DELETE("/:item_id", h.ItemDelete)
 				}

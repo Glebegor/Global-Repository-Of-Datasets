@@ -39,7 +39,12 @@ func (h *Handler) ItemsGet(c *gin.Context) {
 		newResponse(c, http.StatusBadRequest, "invalid id param")
 		return
 	}
-	data, err := h.service.Datasets.GetById(userId, datasetId)
+	itemId, err := strconv.Atoi(c.Param("item_id"))
+	if err != nil {
+		newResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+	data, err := h.service.DatasetItems.ItemsGet(userId, datasetId, itemId)
 	if err != nil {
 		newResponse(c, http.StatusBadGateway, err.Error())
 		return
@@ -73,6 +78,7 @@ func (h *Handler) ItemCreate(c *gin.Context) {
 	})
 }
 func (h *Handler) ItemChange(c *gin.Context) {
+	var input grod.UpdateDatasetItem
 	userId, err := GetUserById(c)
 	if err != nil {
 		newResponse(c, http.StatusUnauthorized, err.Error())
@@ -83,7 +89,16 @@ func (h *Handler) ItemChange(c *gin.Context) {
 		newResponse(c, http.StatusBadRequest, "invalid id param")
 		return
 	}
-	if err := h.service.Datasets.Delete(userId, datasetId); err != nil {
+	itemId, err := strconv.Atoi(c.Param("item_id"))
+	if err != nil {
+		newResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+	if err := c.BindJSON(&input); err != nil {
+		newResponse(c, http.StatusBadGateway, err.Error())
+		return
+	}
+	if err := h.service.DatasetItems.ItemsUpdate(userId, datasetId, itemId, input); err != nil {
 		newResponse(c, http.StatusBadGateway, err.Error())
 		return
 	}
@@ -102,12 +117,12 @@ func (h *Handler) ItemDelete(c *gin.Context) {
 		newResponse(c, http.StatusBadRequest, "invalid id param")
 		return
 	}
-	var input grod.UpdateDataset
-	if err := c.BindJSON(&input); err != nil {
-		newResponse(c, http.StatusBadRequest, err.Error())
+	itemId, err := strconv.Atoi(c.Param("item_id"))
+	if err != nil {
+		newResponse(c, http.StatusBadRequest, "invalid id param")
 		return
 	}
-	if err := h.service.Datasets.Update(userId, datasetId, input); err != nil {
+	if err := h.service.DatasetItems.ItemsDelete(userId, datasetId, itemId); err != nil {
 		newResponse(c, http.StatusBadGateway, err.Error())
 		return
 	}

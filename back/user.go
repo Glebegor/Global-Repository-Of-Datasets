@@ -6,5 +6,5 @@ type User struct {
 	Email     string `json:"email" binding:"required"`
 	Tel       string `json:"tel"`
 	Subscribe string `json:"subscribe"`
-	Id        int    `json:"-" db:"id"`
+	Id        int    `json:"id" db:"id"`
 }

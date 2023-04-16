@@ -20,3 +20,15 @@ func (r *DatasetItemsService) GetAll(userId int, datasetId int) ([]grod.DatasetI
 	data, err := r.repo.GetAll(userId, datasetId)
 	return data, err
 }
+func (r *DatasetItemsService) ItemsGet(userId, datasetId, itemId int) (grod.DatasetItem, error) {
+	data, err := r.repo.ItemsGet(userId, datasetId, itemId)
+	return data, err
+}
+func (r *DatasetItemsService) ItemsDelete(userId, datasetId, itemId int) error {
+	err := r.repo.ItemsDelete(userId, datasetId, itemId)
+	return err
+}
+func (r *DatasetItemsService) ItemsUpdate(userId int, datasetId int, itemId int, input grod.UpdateDatasetItem) error {
+	err := r.repo.ItemsUpdate(userId, datasetId, itemId, input)
+	return err
+}

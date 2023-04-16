@@ -13,6 +13,9 @@ type Authorization interface {
 type DatasetItems interface {
 	Create(userId int, datasetId int, data grod.DatasetItem) error
 	GetAll(userId int, datasetId int) ([]grod.DatasetItem, error)
+	ItemsGet(userId, datasetId, itemId int) (grod.DatasetItem, error)
+	ItemsDelete(userId, datasetId, itemId int) error
+	ItemsUpdate(userId int, datasetId int, itemId int, input grod.UpdateDatasetItem) error
 }
 type Subscribe interface {
 	BuyCommon(user_id int) (int, error)
