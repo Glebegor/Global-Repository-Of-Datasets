@@ -15,6 +15,7 @@ type LogRedInput struct {
 func (h *Handler) authReg(c *gin.Context) {
 	var input grod.User
 	input.Subscribe = "free"
+	input.TimeSub = -1
 
 	if err := c.BindJSON(&input); err != nil {
 		newResponse(c, http.StatusBadRequest, err.Error())

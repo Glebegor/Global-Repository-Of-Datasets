@@ -62,7 +62,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 					items.DELETE("/:item_id", h.ItemDelete)
 				}
 			}
-
 		}
 
 		subscribes := api.Group("/subscribes")

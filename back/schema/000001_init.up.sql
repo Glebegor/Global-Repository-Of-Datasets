@@ -4,6 +4,7 @@ CREATE TABLE users (
     email varchar(255) not null unique,
     tel varchar(255),
     subscribe varchar(255) not null,
+    time_of_sub int not null,
     id serial not null unique
 );
 CREATE TABLE datasets (

@@ -11,7 +11,9 @@ type SubscribeService struct {
 func NewSubscribeService(repo repository.Subscribe) *SubscribeService {
 	return &SubscribeService{repo: repo}
 }
-
+func (r *SubscribeService) AsyncTimeOutOfSub() error {
+	return nil
+}
 func (r *SubscribeService) BuyCommon(user_id int) (int, error) {
 	status, err := r.repo.BuyCommon(user_id)
 	return status, err
