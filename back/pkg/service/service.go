@@ -8,7 +8,8 @@ import (
 type Authorization interface {
 	CreateUser(user grod.User) (int, error)
 	GenerateToken(username, password string) (string, error)
-	ParseToken(accesToken string) (int, string, error)
+	ParseToken(accesToken string) (int, string, int, error)
+	UpdateSubTime() error
 }
 type DatasetItems interface {
 	Create(userId int, datasetId int, data grod.DatasetItem) error

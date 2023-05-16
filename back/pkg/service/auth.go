@@ -17,8 +17,9 @@ type AuthService struct {
 }
 type tokenClaims struct {
 	jwt.StandardClaims
-	UserId       int    `json:"user_id"`
-	UserUsername string `json:"user_username"`
+	UserId            int    `json:"user_id"`
+	UserUsername      string `json:"user_username"`
+	UserCountRequests int    `json: "count_requests"`
 	// UserTimeSub string `json:"user_time_sub"`
 }
 
@@ -48,11 +49,12 @@ func (r *AuthService) GenerateToken(username, password string) (string, error) {
 		},
 		user.Id,
 		username,
+		user.CountRequests,
 	})
 	return token.SignedString([]byte(os.Getenv("secretKey")))
 }
 
-func (r *AuthService) ParseToken(accesToken string) (int, string, error) {
+func (r *AuthService) ParseToken(accesToken string) (int, string, int, error) {
 	token, err := jwt.ParseWithClaims(accesToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid singing method")
@@ -60,11 +62,17 @@ func (r *AuthService) ParseToken(accesToken string) (int, string, error) {
 		return []byte(os.Getenv("secretKey")), nil
 	})
 	if err != nil {
-		return 0, "", err
+		return 0, "", 0, err
 	}
 	claims, ok := token.Claims.(*tokenClaims)
 	if !ok {
-		return 0, "", errors.New("token claims are not of type *tokenClaims")
+		return 0, "", 0, errors.New("token claims are not of type *tokenClaims")
 	}
-	return claims.UserId, claims.UserUsername, nil
+	return claims.UserId, claims.UserUsername, claims.UserCountRequests, nil
+}
+func (r *AuthService) UpdateSubTime() error {
+	if err := r.repo.UpdateSubTime(); err != nil {
+		return err
+	}
+	return nil
 }

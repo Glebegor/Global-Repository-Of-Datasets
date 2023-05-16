@@ -12,6 +12,7 @@ const (
 	authorizationHeader = "Authorization"
 	userCtx             = "userId"
 	userCtx2            = "userUsername"
+	userCtx3            = "userCountRequests"
 )
 
 func (h *Handler) userIndentity(c *gin.Context) {
@@ -25,13 +26,14 @@ func (h *Handler) userIndentity(c *gin.Context) {
 		newResponse(c, http.StatusUnauthorized, "Invalid auth header")
 		return
 	}
-	userId, userName, err := h.service.Authorization.ParseToken(headerParts[1])
+	userId, userName, userCountRequests, err := h.service.Authorization.ParseToken(headerParts[1])
 	if err != nil {
 		newResponse(c, http.StatusUnauthorized, err.Error())
 		return
 	}
 	c.Set(userCtx, userId)
 	c.Set(userCtx2, userName)
+	c.Set(userCtx3, userCountRequests)
 }
 
 func GetUserById(c *gin.Context) (int, error) {

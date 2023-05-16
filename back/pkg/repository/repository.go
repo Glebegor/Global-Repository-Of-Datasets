@@ -16,6 +16,7 @@ const (
 type Authorization interface {
 	CreateUser(user grod.User) (int, error)
 	GetUser(username, password string) (grod.User, error)
+	UpdateSubTime() error
 }
 type Subscribe interface {
 	BuyCommon(user_id int) (int, error)

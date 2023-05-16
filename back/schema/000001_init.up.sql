@@ -5,12 +5,14 @@ CREATE TABLE users (
     tel varchar(255),
     subscribe varchar(255) not null,
     time_of_sub int not null,
+    count_requests int not null,
     id serial not null unique
 );
 CREATE TABLE datasets (
     title varchar(255) not null,
     description varchar(2000) not null,
-    id serial not null unique
+    id serial not null unique,
+    cost_one_request int
 );
 CREATE TABLE users_datasets (
     id serial not null unique,
