@@ -43,9 +43,18 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	server := new(grod.Server)
+
 	go func() {
 		if err := server.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 			logrus.Fatalf("Error while running server: %s, %s", err.Error(), time.Now())
+		}
+	}()
+	go func() {
+		for {
+			if err := repos.AsyncDataChanges.DownSubTime(); err != nil {
+				logrus.Fatalf("Error while changing time of subscribe: %s", err.Error())
+			}
+			time.Sleep(time.Minute)
 		}
 	}()
 	logrus.Printf("%s: Server is running on port %s. BTW", time.Now(), viper.GetString("port"))

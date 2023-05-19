@@ -39,18 +39,23 @@ type DatasetItems interface {
 	ItemsDelete(userId, datasetId, itemId int) error
 	ItemsUpdate(userId int, datasetId int, itemId int, input grod.UpdateDatasetItem) error
 }
+type AsyncDataChanges interface {
+	DownSubTime() error
+}
 type Repository struct {
 	Authorization
 	Subscribe
 	Datasets
 	DatasetItems
+	AsyncDataChanges
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Authorization: NewAuthPostgres(db),
-		Subscribe:     NewSubscribePostgres(db),
-		Datasets:      NewDatasetsPostgres(db),
-		DatasetItems:  NewDatasetItemsPostgres(db),
+		Authorization:    NewAuthPostgres(db),
+		Subscribe:        NewSubscribePostgres(db),
+		Datasets:         NewDatasetsPostgres(db),
+		DatasetItems:     NewDatasetItemsPostgres(db),
+		AsyncDataChanges: NewAsyncDataChanges(db),
 	}
 }
